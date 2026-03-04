@@ -1,6 +1,10 @@
 "use client";
 
+import { useRef } from "react";
+import { useInView, motion } from "framer-motion";
 import { company } from "@/config/company";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import { itemReveal } from "@/components/ui/SectionReveal";
 
 const points = [
   {
@@ -26,45 +30,47 @@ const points = [
 ];
 
 export function About() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
+
   return (
     <section
       id="about"
-      className="bg-white py-20 sm:py-28"
+      className="bg-white py-24 sm:py-32"
       aria-labelledby="about-heading"
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="max-w-2xl">
-          <h2
-            id="about-heading"
-            className="text-3xl font-bold tracking-tight text-navy sm:text-4xl"
-          >
-            About {company.name}
-          </h2>
-          <p className="mt-4 text-lg text-gray-muted">
-            {company.description} We combine deep technical expertise with
-            strategic thinking to deliver enterprise-grade AI and software
-            solutions that transform how you operate.
-          </p>
-        </div>
-        <ul className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-4" role="list">
-          {points.map((item, i) => (
-            <li
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" ref={ref}>
+        <SectionHeading
+          id="about-heading"
+          title={`About ${company.name}`}
+          subtitle={`${company.description} We combine deep technical expertise with strategic thinking to deliver enterprise-grade AI and software solutions that transform how you operate.`}
+        />
+        <motion.ul
+          className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+          role="list"
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={{
+            visible: {
+              transition: { staggerChildren: 0.08, delayChildren: 0.1 },
+            },
+          }}
+        >
+          {points.map((item) => (
+            <motion.li
               key={item.title}
-              className="group rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-all hover:border-accent-blue/30 hover:shadow-md"
-              style={{
-                animation: "fadeInUp 0.6s ease-out forwards",
-                opacity: 0,
-                animationDelay: `${i * 0.05}s`,
-                animationFillMode: "forwards",
-              }}
+              variants={itemReveal}
+              className="group rounded-2xl border border-gray-200 bg-gray-50/50 p-6 shadow-soft transition-all duration-300 hover:border-accent-blue/30 hover:shadow-card-hover"
             >
-              <h3 className="text-lg font-semibold text-navy group-hover:text-accent-blue transition-colors">
+              <h3 className="text-lg font-semibold text-navy transition-colors group-hover:text-accent-blue">
                 {item.title}
               </h3>
-              <p className="mt-2 text-sm text-gray-muted">{item.description}</p>
-            </li>
+              <p className="mt-2 text-sm leading-relaxed text-gray-muted">
+                {item.description}
+              </p>
+            </motion.li>
           ))}
-        </ul>
+        </motion.ul>
       </div>
     </section>
   );

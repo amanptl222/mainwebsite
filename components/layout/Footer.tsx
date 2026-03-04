@@ -6,6 +6,7 @@ const currentYear = new Date().getFullYear();
 const quickLinks = [
   { href: "#about", label: "About" },
   { href: "#services", label: "Services" },
+  { href: "#portfolio", label: "Portfolio" },
   { href: "#process", label: "Process" },
   { href: "#contact", label: "Contact" },
 ];
@@ -25,8 +26,8 @@ export function Footer() {
       role="contentinfo"
       className="bg-navy-dark border-t border-gray-border"
     >
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           <div className="lg:col-span-1">
             <Link
               href="/"
@@ -34,7 +35,7 @@ export function Footer() {
             >
               {company.name}
             </Link>
-            <p className="mt-3 text-sm text-gray-soft max-w-xs">
+            <p className="mt-4 text-sm text-gray-soft max-w-xs leading-relaxed">
               {company.description}
             </p>
           </div>
@@ -43,7 +44,7 @@ export function Footer() {
             <h3 className="text-sm font-semibold uppercase tracking-wider text-white">
               Quick Links
             </h3>
-            <ul className="mt-4 space-y-2" role="list">
+            <ul className="mt-4 space-y-3" role="list">
               {quickLinks.map((link) => (
                 <li key={link.href}>
                   <Link
@@ -61,7 +62,7 @@ export function Footer() {
             <h3 className="text-sm font-semibold uppercase tracking-wider text-white">
               Services
             </h3>
-            <ul className="mt-4 space-y-2" role="list">
+            <ul className="mt-4 space-y-3" role="list">
               {serviceLinks.map((name) => (
                 <li key={name}>
                   <Link
@@ -79,7 +80,7 @@ export function Footer() {
             <h3 className="text-sm font-semibold uppercase tracking-wider text-white">
               Contact
             </h3>
-            <ul className="mt-4 space-y-2" role="list">
+            <ul className="mt-4 space-y-3" role="list">
               <li>
                 <a
                   href={`mailto:${company.email}`}
@@ -93,7 +94,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 border-t border-gray-border pt-8 text-center">
+        <div className="mt-16 border-t border-gray-border pt-8 text-center">
           <p className="text-sm text-gray-soft">
             © {currentYear} {company.name}. All rights reserved.
           </p>

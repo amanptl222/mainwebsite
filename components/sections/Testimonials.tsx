@@ -1,5 +1,10 @@
 "use client";
 
+import { useRef } from "react";
+import { useInView, motion } from "framer-motion";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import { itemReveal } from "@/components/ui/SectionReveal";
+
 const testimonials = [
   {
     quote:
@@ -19,43 +24,44 @@ const testimonials = [
 ];
 
 export function Testimonials() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-60px" });
+
   return (
     <section
       id="testimonials"
-      className="bg-white py-20 sm:py-28"
+      className="bg-gray-50 py-24 sm:py-32"
       aria-labelledby="testimonials-heading"
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="max-w-2xl">
-          <h2
-            id="testimonials-heading"
-            className="text-3xl font-bold tracking-tight text-navy sm:text-4xl"
-          >
-            What Clients Say
-          </h2>
-          <p className="mt-4 text-lg text-gray-muted">
-            Feedback from leaders we’ve worked with across industries.
-          </p>
-        </div>
-        <div className="mt-16 grid gap-8 md:grid-cols-3">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" ref={ref}>
+        <SectionHeading
+          id="testimonials-heading"
+          title="What Clients Say"
+          subtitle="Feedback from leaders we've worked with across industries."
+        />
+        <motion.div
+          className="mt-16 grid gap-8 md:grid-cols-3"
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={{
+            visible: {
+              transition: { staggerChildren: 0.1, delayChildren: 0.1 },
+            },
+          }}
+        >
           {testimonials.map((t, i) => (
-            <blockquote
+            <motion.blockquote
               key={i}
-              className="rounded-xl border border-gray-200 bg-gray-50/50 p-6"
-              style={{
-                animation: "fadeInUp 0.6s ease-out forwards",
-                opacity: 0,
-                animationDelay: `${i * 0.06}s`,
-                animationFillMode: "forwards",
-              }}
+              variants={itemReveal}
+              className="rounded-2xl border border-gray-200 bg-white p-8 shadow-soft transition-all duration-300 hover:shadow-card-hover"
             >
-              <p className="text-navy">&ldquo;{t.quote}&rdquo;</p>
-              <footer className="mt-4 text-sm text-gray-muted">
+              <p className="text-navy leading-relaxed">&ldquo;{t.quote}&rdquo;</p>
+              <footer className="mt-6 text-sm font-medium text-gray-muted">
                 — {t.author}
               </footer>
-            </blockquote>
+            </motion.blockquote>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

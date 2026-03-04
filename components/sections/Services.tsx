@@ -1,5 +1,10 @@
 "use client";
 
+import { useRef } from "react";
+import { useInView, motion } from "framer-motion";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import { itemReveal } from "@/components/ui/SectionReveal";
+
 const services = [
   {
     title: "AI & Machine Learning Solutions",
@@ -58,37 +63,36 @@ const services = [
 ];
 
 export function Services() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-60px" });
+
   return (
     <section
       id="services"
-      className="bg-gray-50 py-20 sm:py-28"
+      className="bg-gray-50 py-24 sm:py-32"
       aria-labelledby="services-heading"
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="max-w-2xl">
-          <h2
-            id="services-heading"
-            className="text-3xl font-bold tracking-tight text-navy sm:text-4xl"
-          >
-            Services
-          </h2>
-          <p className="mt-4 text-lg text-gray-muted">
-            End-to-end capabilities from strategy and design to development and
-            deployment. We deliver enterprise-grade solutions tailored to your
-            industry and scale.
-          </p>
-        </div>
-        <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((service, i) => (
-            <article
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" ref={ref}>
+        <SectionHeading
+          id="services-heading"
+          title="Services"
+          subtitle="End-to-end capabilities from strategy and design to development and deployment. We deliver enterprise-grade solutions tailored to your industry and scale."
+        />
+        <motion.div
+          className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={{
+            visible: {
+              transition: { staggerChildren: 0.06, delayChildren: 0.1 },
+            },
+          }}
+        >
+          {services.map((service) => (
+            <motion.article
               key={service.title}
-              className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-all hover:border-accent-blue/30 hover:shadow-md"
-              style={{
-                animation: "fadeInUp 0.6s ease-out forwards",
-                opacity: 0,
-                animationDelay: `${i * 0.04}s`,
-                animationFillMode: "forwards",
-              }}
+              variants={itemReveal}
+              className="group rounded-2xl border border-gray-200 bg-white p-6 shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:border-accent-blue/30 hover:shadow-card-hover hover:shadow-glow/50"
             >
               <h3 className="text-lg font-semibold text-navy">
                 {service.title}
@@ -107,9 +111,9 @@ export function Services() {
                   </li>
                 ))}
               </ul>
-            </article>
+            </motion.article>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

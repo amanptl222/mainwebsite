@@ -2,16 +2,14 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 import { company } from "@/config/company";
 
 const navLinks = [
   { href: "#about", label: "About" },
   { href: "#services", label: "Services" },
-  { href: "#why-us", label: "Why Us" },
-  { href: "#industries", label: "Industries" },
+  { href: "#portfolio", label: "Portfolio" },
   { href: "#process", label: "Process" },
-  { href: "#case-studies", label: "Case Studies" },
-  { href: "#testimonials", label: "Testimonials" },
   { href: "#contact", label: "Contact" },
 ];
 
@@ -48,7 +46,7 @@ export function Navbar() {
             <li key={link.href}>
               <Link
                 href={link.href}
-                className="text-gray-soft text-sm font-medium hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2 focus:ring-offset-navy rounded"
+                className="text-gray-soft text-sm font-medium hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2 focus:ring-offset-navy rounded"
               >
                 {link.label}
               </Link>
@@ -59,7 +57,7 @@ export function Navbar() {
         <div className="hidden md:flex items-center gap-4">
           <Link
             href="#contact"
-            className="rounded-lg bg-accent-blue px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-blue-light focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2 focus:ring-offset-navy"
+            className="rounded-xl bg-accent-blue px-4 py-2.5 text-sm font-medium text-white transition-all duration-300 hover:bg-accent-blue-light hover:shadow-glow/50 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2 focus:ring-offset-navy"
           >
             Book a Consultation
           </Link>
@@ -67,7 +65,7 @@ export function Navbar() {
 
         <button
           type="button"
-          className="md:hidden rounded-lg p-2 text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-accent-blue"
+          className="md:hidden rounded-xl p-2.5 text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-accent-blue transition-colors"
           aria-expanded={isOpen}
           aria-controls="mobile-menu"
           onClick={() => setIsOpen(!isOpen)}
@@ -101,33 +99,43 @@ export function Navbar() {
 
       <div
         id="mobile-menu"
-        className={`md:hidden overflow-hidden transition-all duration-300 ${
-          isOpen ? "max-h-[80vh]" : "max-h-0"
-        }`}
+        className="md:hidden"
         aria-hidden={!isOpen}
       >
-        <ul className="bg-navy-light border-t border-gray-border px-4 py-4 flex flex-col gap-2">
-          {navLinks.map((link) => (
-            <li key={link.href}>
-              <Link
-                href={link.href}
-                className="block py-2 text-gray-soft hover:text-white transition-colors"
-                onClick={() => setIsOpen(false)}
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
-          <li>
-            <Link
-              href="#contact"
-              className="block mt-2 rounded-lg bg-accent-blue px-4 py-2 text-center text-sm font-medium text-white"
-              onClick={() => setIsOpen(false)}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              className="overflow-hidden border-t border-gray-border bg-navy/98 backdrop-blur-md"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.25 }}
             >
-              Book a Consultation
-            </Link>
-          </li>
-        </ul>
+              <ul className="px-4 py-6 flex flex-col gap-1">
+                {navLinks.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="block py-3 text-gray-soft hover:text-white transition-colors rounded-lg px-3"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+                <li className="pt-2">
+                  <Link
+                    href="#contact"
+                    className="block rounded-xl bg-accent-blue px-4 py-3 text-center text-sm font-medium text-white"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Book a Consultation
+                  </Link>
+                </li>
+              </ul>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </header>
   );

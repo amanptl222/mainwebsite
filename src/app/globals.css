@@ -22,14 +22,13 @@ body {
   }
 }
 
-/* Subtle scroll-triggered animations */
-.animate-on-scroll {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+/* GPU-accelerated transforms for animations */
+.gpu {
+  transform: translateZ(0);
+  will-change: transform;
 }
 
-.animate-on-scroll.visible {
-  opacity: 1;
-  transform: translateY(0);
+/* Focus visible for accessibility */
+:focus-visible {
+  @apply outline-2 outline-offset-2 outline-accent-blue;
 }
