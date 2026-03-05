@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { company } from "@/config/company";
 
 const currentYear = new Date().getFullYear();
@@ -31,9 +32,19 @@ export function Footer() {
           <div className="lg:col-span-1">
             <Link
               href="/"
-              className="text-xl font-semibold text-white hover:opacity-90 transition-opacity"
+              className="inline-block rounded-lg transition-opacity hover:opacity-90"
+              aria-label={`${company.name} - Home`}
             >
-              {company.name}
+              <span className="relative block h-10 w-[140px] overflow-hidden rounded-lg sm:h-11">
+                <Image
+                  src={company.logo ?? "/logo.png"}
+                  alt={company.name}
+                  width={280}
+                  height={88}
+                  className="h-full w-auto min-w-full object-contain object-left"
+                  sizes="140px"
+                />
+              </span>
             </Link>
             <p className="mt-4 text-sm text-gray-soft max-w-xs leading-relaxed">
               {company.description}

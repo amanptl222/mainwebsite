@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { company } from "@/config/company";
 
@@ -27,7 +28,7 @@ export function Navbar() {
     <header
       role="banner"
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-navy/95 backdrop-blur-md shadow-lg" : "bg-transparent"
+        scrolled ? "bg-navy shadow-lg" : "bg-navy/80 backdrop-blur-sm"
       }`}
     >
       <nav
@@ -36,9 +37,23 @@ export function Navbar() {
       >
         <Link
           href="/"
-          className="text-xl font-semibold text-white transition-opacity hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2 focus:ring-offset-navy rounded"
+          className="flex items-center gap-2 rounded-lg transition-opacity hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2 focus:ring-offset-navy focus:rounded-lg"
+          aria-label={`${company.name} - Home`}
         >
-          {company.name}
+          <span className="relative block h-8 w-10 shrink-0 overflow-hidden rounded-lg sm:h-9 sm:w-10">
+            <Image
+              src={company.logo ?? "/logo.png"}
+              alt=""
+              width={192}
+              height={72}
+              className="h-full w-full object-contain object-left"
+              sizes="96px"
+              priority
+            />
+          </span>
+          <span className="text-lg font-semibold tracking-tight text-white sm:text-xl">
+            {company.name}
+          </span>
         </Link>
 
         <ul className="hidden md:flex items-center gap-8">
